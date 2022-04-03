@@ -15,69 +15,62 @@ public class ArrayResizer {
 
     public static int numNonZeroRows(int[][] array2D){
         boolean check = false;
+        int numRows =0;
         //precondition for rows
         for(int i=0;i<array2D.length;i++){
             check=false;
             for(int j=0;j<array2D[i].length;j++){
                 if(array2D[i][j]==0){
                     check=true; // there is a zero in the row
-                }
-            }
-            if(check==false){//if there were no zeros in the row, you can
-                break;
-            }
-        }
-
-        for(int i=0;i<array2D.length;i++){
-            check=false;
-            for(int j=0;j<array2D.length;j++){
-                if(array2D[j][i]==0){
-                    check=true; // there is a 0 in the column
-                }
-            }
-            if(check==false){//if there were no zeros in the column, you can break
-                break;
-            }
-        }
-
-        if(check==true){//the last state of check was true which mean code never broke for non-zero column or row so return
-            return -1000;
-        }
-
-        int numRows = 0;
-        for(int i=0;i< array2D.length;i++){
-            boolean zeroFound=false;
-            for(int j=0;j<array2D[i].length;j++){
-                if(array2D[i][j]==0){
-                    //System.out.println("["+i+"]["+j+"]="+array2D[i][j]);
-                    zeroFound=true;
                     break;
                 }
             }
-            if(zeroFound==false){
-                //System.out.println("~~~~~~~~~");
+            if(check==false){//if there were no zeros in the row, you can
                 numRows++;
             }
         }
+
         return numRows;
     }
 
     public static int[][] resize(int[][] array2D){
-       // int rows = numNonZeroRows(array2D);
-        int[][] newArr = new int[2][3];
+        int rows = numNonZeroRows(array2D);
+        int[][] newArr = new int[rows][3];
         int currentRow = 0;
+        boolean foundZero=false;
         //check for non zero rows
 
+        if(rows==0){ //if there were no nonZero rows, you have to check for columns
+            for(int i=0;i<array2D[0].length;i++){
+                foundZero=false;
+                for(int j=0;j<array2D.length;j++){
+                    if(array2D[j][i]==0) {
+                        foundZero = true;
+                        break; //skip to next column
+                    }
+                }
+                if(foundZero==false){ //no zero was found and you can exit out of the loop
+                    break; //leave out of this for loop
+                }
+            }
+            if(foundZero==true){ //no nonzero column was found so return -1000
+                return newArr;
+            }
+        }
+
+        //RESIZING METHOD
+
         for(int i=0;i<array2D.length;i++){
-            boolean zeroFound = false;
+            foundZero = false;
             for(int j=0;j<array2D[i].length;j++){
                 if(array2D[i][j]==0){
-                    zeroFound=true;
+                    foundZero=true;
                     break;
                 }
-                if(zeroFound==false){//nonzero row should be added to list
-                    System.out.println("here");
+                if(foundZero==false){//nonzero row should be added to list
+                    System.out.println("add this row here");
                     for(int k=0;k<array2D[i].length;k++){
+                        System.out.println("newArr["+currentRow+"]["+k+"]="+array2D[i][k]);
                         newArr[currentRow][k]=array2D[i][k];
                     }
                     currentRow++;
@@ -107,6 +100,7 @@ public class ArrayResizer {
                 {4,5,6}
         };
 
+        //System.out.println(ArrayResizer.numNonZeroRows(arr));
         int[][] smaller = ArrayResizer.resize(arr);
 
         for(int i=0;i<smaller.length;i++){
@@ -118,7 +112,7 @@ public class ArrayResizer {
 
        //System.out.println(ArrayResizer.isNonZeroRow(arr,3));
        // System.out.println(ArrayResizer.numNonZeroRows(arr2));
-
+            
     }
 
 
