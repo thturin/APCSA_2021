@@ -67,14 +67,14 @@ public class ArrayResizer {
                     foundZero=true;
                     break;
                 }
-                if(foundZero==false){//nonzero row should be added to list
-                    System.out.println("add this row here");
-                    for(int k=0;k<array2D[i].length;k++){
-                        System.out.println("newArr["+currentRow+"]["+k+"]="+array2D[i][k]);
-                        newArr[currentRow][k]=array2D[i][k];
-                    }
-                    currentRow++;
+            }
+            if(foundZero==false){//nonzero row should be added to list
+              //  System.out.println("add this row here");
+                for(int k=0;k<array2D[i].length;k++){
+                   // System.out.println("newArr["+currentRow+"]["+k+"]="+array2D[i][k]);
+                    newArr[currentRow][k]=array2D[i][k];
                 }
+                currentRow++;
             }
         }
         return newArr;
